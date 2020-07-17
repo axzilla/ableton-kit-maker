@@ -2,12 +2,19 @@ import React from 'react'
 import logo from './logo.svg'
 import './App.css'
 
+const { dialog } = window.require('electron').remote
 function App() {
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>
+        <p
+          onClick={() =>
+            dialog.showOpenDialog({
+              properties: ['openFile', 'multiSelections'],
+            })
+          }
+        >
           Edit <code>src/App.js</code> and save to reload.
         </p>
         <a
