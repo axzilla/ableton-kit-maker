@@ -8,8 +8,9 @@
 # testing
 /coverage
 
-# production
+# production // dist is the electron build folder
 /build
+/dist
 
 # misc
 .DS_Store
