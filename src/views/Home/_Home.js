@@ -21,17 +21,14 @@ function Home() {
     return extensionPath.slice(extensionPath.lastIndexOf('/') + 1)
   }
 
-  function isDoubleEntry(extensions) {
-    return extensionPaths.some((item) => extensions.includes(item))
+  function findAndRemoveDoubleEntry(array) {
+    return array.filter((a, b) => array.indexOf(a) === b)
   }
 
   async function handleGetExtensions() {
     try {
       const extensions = await ipcRenderer.invoke('get-extensions')
-
-      if (!isDoubleEntry(extensions)) {
-        setExtensionPaths([...extensionPaths, ...extensions])
-      }
+      setExtensionPaths(findAndRemoveDoubleEntry(extensions))
     } catch (error) {
       if (error) throw error
     }
