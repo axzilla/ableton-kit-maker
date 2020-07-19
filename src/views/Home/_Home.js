@@ -21,7 +21,7 @@ function Home() {
     return extensionPath.slice(extensionPath.lastIndexOf('/') + 1)
   }
 
-  function isDoubleEntrie(extensions) {
+  function isDoubleEntry(extensions) {
     return extensionPaths.some((item) => extensions.includes(item))
   }
 
@@ -29,7 +29,7 @@ function Home() {
     try {
       const extensions = await ipcRenderer.invoke('get-extensions')
 
-      if (!isDoubleEntrie(extensions)) {
+      if (!isDoubleEntry(extensions)) {
         setExtensionPaths([...extensionPaths, ...extensions])
       }
     } catch (error) {
