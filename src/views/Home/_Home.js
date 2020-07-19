@@ -5,8 +5,9 @@ import Typography from '@material-ui/core/Typography'
 const { ipcRenderer } = window.require('electron')
 
 function Home() {
-  function handleGetExtensions() {
-    ipcRenderer.send('get-extensions')
+  async function handleGetExtensions() {
+    const extensions = await ipcRenderer.invoke('get-extensions')
+    console.log(extensions)
   }
 
   return (
