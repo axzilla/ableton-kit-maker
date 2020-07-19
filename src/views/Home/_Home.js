@@ -45,7 +45,7 @@ function Home() {
   }
 
   return (
-    <Grid style={{ background: 'green' }} onDr>
+    <Grid>
       <Typography>Drag & Drop</Typography>
       <Typography>or</Typography>
       <Typography onClick={handleGetExtensions}>
@@ -66,26 +66,22 @@ function Home() {
               })
               .map((extensionPath, index) => {
                 return (
-                  <>
-                    <ListItem>
-                      <ListItemAvatar>
-                        <Avatar>
-                          <FolderIcon />
-                        </Avatar>
-                      </ListItemAvatar>
-                      <ListItemText
-                        primary={`Kit: ${getExtensionName(extensionPath)}`}
-                        secondary={'Extension'}
-                      />
-                      <ListItemSecondaryAction>
-                        <IconButton
-                          onClick={() => handleDeleteExtension(index)}
-                        >
-                          <DeleteIcon />
-                        </IconButton>
-                      </ListItemSecondaryAction>
-                    </ListItem>
-                  </>
+                  <ListItem key={extensionPath}>
+                    <ListItemAvatar>
+                      <Avatar>
+                        <FolderIcon />
+                      </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary={`Kit: ${getExtensionName(extensionPath)}`}
+                      secondary={'Extension'}
+                    />
+                    <ListItemSecondaryAction>
+                      <IconButton onClick={() => handleDeleteExtension(index)}>
+                        <DeleteIcon />
+                      </IconButton>
+                    </ListItemSecondaryAction>
+                  </ListItem>
                 )
               })}
           </List>
