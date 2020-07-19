@@ -7,7 +7,8 @@ const getExtensionsCtrl = async function () {
       properties: ['openDirectory', 'multiSelections'],
     })
 
-    return extensions
+    console.log(extensions)
+    return extensions.filePaths
     // addLibraries(newLibraries)
   } catch (error) {
     if (error) throw error
