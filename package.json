@@ -1,7 +1,7 @@
 {
   "productName": "Ableton Kits",
   "author": "badazzdev",
-  "main": "public/electron.js",
+  "main": "packages/electron/main.js",
   "name": "electron-app",
   "version": "0.1.0",
   "homepage": "./",
