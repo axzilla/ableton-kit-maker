@@ -20,14 +20,28 @@ function Home() {
   function getExtensionName(extensionPath) {
     return extensionPath.slice(extensionPath.lastIndexOf('/') + 1)
   }
+
+  function isDoubleEntrie(extensions) {
+    return extensionPaths.some((item) => extensions.includes(item))
+  }
+
   async function handleGetExtensions() {
     try {
       const extensions = await ipcRenderer.invoke('get-extensions')
-      setExtensionPaths(extensions)
-      console.log(extensions)
+
+      if (!isDoubleEntrie(extensions)) {
+        setExtensionPaths([...extensionPaths, ...extensions])
+      }
     } catch (error) {
       if (error) throw error
     }
+  }
+
+  function handleDeleteExtension(index) {
+    setExtensionPaths([
+      ...extensionPaths.slice(0, index),
+      ...extensionPaths.slice(index + 1),
+    ])
   }
 
   return (
@@ -50,7 +64,7 @@ function Home() {
                 }
                 return 0
               })
-              .map((extensionPath) => {
+              .map((extensionPath, index) => {
                 return (
                   <>
                     <ListItem>
@@ -64,7 +78,9 @@ function Home() {
                         secondary={'Extension'}
                       />
                       <ListItemSecondaryAction>
-                        <IconButton edge="end" aria-label="delete">
+                        <IconButton
+                          onClick={() => handleDeleteExtension(index)}
+                        >
                           <DeleteIcon />
                         </IconButton>
                       </ListItemSecondaryAction>
