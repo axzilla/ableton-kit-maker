@@ -35,19 +35,14 @@ function Home() {
   }
 
   function handleDeleteExtension(index) {
-    setExtensionPaths([
-      ...extensionPaths.slice(0, index),
-      ...extensionPaths.slice(index + 1),
-    ])
+    setExtensionPaths([...extensionPaths.slice(0, index), ...extensionPaths.slice(index + 1)])
   }
 
   return (
     <Grid>
-      <Typography>Drag & Drop</Typography>
+      <Typography>Drag and Drop</Typography>
       <Typography>or</Typography>
-      <Typography onClick={handleGetExtensions}>
-        Select Expansion Pack Folder(s)
-      </Typography>
+      <Typography onClick={handleGetExtensions}>Select Expansion Pack Folder(s)</Typography>
       {extensionPaths && (
         <Grid item xs={12} md={6}>
           <List dense={true}>
