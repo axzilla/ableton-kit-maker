@@ -1,45 +1,58 @@
 {
-  "productName": "Ableton Kits",
+  "name": "ableton-kit-maker",
+  "description": "Build Ableton Drum Rack from your NI Extensions",
   "author": "badazzdev",
-  "main": "packages/electron/main.js",
-  "name": "electron-app",
-  "version": "0.1.0",
+  "version": "0.0.1",
+  "main": "./public/electron.js",
+  "productName": "Ableton Kits",
   "homepage": "./",
+  "build": {
+    "appId": "<com.your_app>",
+    "extends": null,
+    "files": [
+      "./public/electron.js",
+      "./build/**/*",
+      "./controller/**/*",
+      "./mains/**/*"
+    ]
+  },
   "private": true,
   "scripts": {
     "dev": "concurrently \"npm run start-react\" \"wait-on http://localhost:3000 && npm run start-electron\"",
     "start-react": "export BROWSER=none && react-scripts start",
     "start-electron": "export ELECTRON_START_URL=http://localhost:3000 && electron .",
+    "build": "npm run build-react && npm run build-electron",
     "build-react": "react-scripts build",
     "build-electron": "electron-builder",
-    "build": "npm run build-react && npm run build-electron",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "test": "eslint \"**/*.js\""
   },
   "dependencies": {
     "@material-ui/core": "4.11.0",
     "@material-ui/icons": "4.9.1",
-    "@testing-library/jest-dom": "4.2.4",
-    "@testing-library/react": "9.5.0",
-    "@testing-library/user-event": "7.2.1",
-    "electron-is-dev": "1.2.0",
-    "globby": "11.0.1",
+    "prop-types": "15.7.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-scripts": "3.4.1"
+    "react-scripts": "3.4.1",
+    "electron-is-dev": "1.2.0",
+    "electron-devtools-installer": "3.1.1"
   },
   "devDependencies": {
+    "eslint-plugin-react": "7.20.3",
     "concurrently": "5.2.0",
     "electron": "9.1.0",
     "electron-builder": "22.7.0",
-    "electron-devtools-installer": "3.1.1",
+    "eslint": "7.5.0",
+    "eslint-config-prettier": "6.11.0",
+    "eslint-plugin-prettier": "3.1.4",
+    "husky": "4.2.5",
+    "prettier": "2.0.5",
     "wait-on": "5.1.0"
   },
-  "build": {
-    "appId": "<com.your_app>"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run test",
+      "pre-push": "npm run test"
+    }
   },
   "browserslist": {
     "production": [
