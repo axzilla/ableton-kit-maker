@@ -17,21 +17,18 @@ const { ipcRenderer } = window.require('electron')
 function Home() {
   const [extensionPaths, setExtensionPaths] = useState([])
 
-  function getExtensionName(extensionPath) {
-    return extensionPath.slice(extensionPath.lastIndexOf('/') + 1)
-  }
-
-  function findAndRemoveDoubleEntry(array) {
-    return array.filter((a, b) => array.indexOf(a) === b)
-  }
-
   async function handleGetExtensions() {
     try {
       const extensions = await ipcRenderer.invoke('get-extensions')
-      setExtensionPaths(findAndRemoveDoubleEntry(extensions))
+      const uniqueExtensioPathsArray = [...new Set([...extensionPaths, ...extensions])]
+      setExtensionPaths(uniqueExtensioPathsArray)
     } catch (error) {
       if (error) throw error
     }
+  }
+
+  function getExtensionName(extensionPath) {
+    return extensionPath.slice(extensionPath.lastIndexOf('/') + 1)
   }
 
   function handleDeleteExtension(index) {
