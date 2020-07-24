@@ -8,7 +8,9 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar'
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
 import ListItemText from '@material-ui/core/ListItemText'
 import Avatar from '@material-ui/core/Avatar'
+import Button from '@material-ui/core/Button'
 import IconButton from '@material-ui/core/IconButton'
+
 import FolderIcon from '@material-ui/icons/Folder'
 import DeleteIcon from '@material-ui/icons/Delete'
 
@@ -36,12 +38,14 @@ function Home() {
   }
 
   return (
-    <Grid>
-      <Typography>Drag and Drop</Typography>
-      <Typography>or</Typography>
-      <Typography onClick={handleGetExtensions}>Select Expansion Pack Folder(s)</Typography>
-      {extensionPaths && (
-        <Grid item xs={12} md={6}>
+    <Grid container justify="center" alignItems="center">
+      <Grid item xs={12}>
+        <Button fullWidth variant="contained" color="secondary" onClick={handleGetExtensions}>
+          Select Expansion Pack Folder(s)
+        </Button>
+      </Grid>
+      {extensionPaths.length > 0 ? (
+        <Grid item xs={12}>
           <List dense={true}>
             {extensionPaths
               .sort((a, b) => {
@@ -55,7 +59,7 @@ function Home() {
               })
               .map((extensionPath, index) => {
                 return (
-                  <ListItem key={extensionPath}>
+                  <ListItem key={extensionPath} button>
                     <ListItemAvatar>
                       <Avatar>
                         <FolderIcon />
@@ -74,6 +78,12 @@ function Home() {
                 )
               })}
           </List>
+        </Grid>
+      ) : (
+        <Grid item xs={12}>
+          <Typography variant="subtitle2" align="center">
+            No Extensions selected
+          </Typography>
         </Grid>
       )}
     </Grid>
