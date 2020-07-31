@@ -65,10 +65,7 @@ function Home() {
                         <FolderIcon />
                       </Avatar>
                     </ListItemAvatar>
-                    <ListItemText
-                      primary={`Kit: ${getExtensionName(extensionPath)}`}
-                      secondary={'Extension'}
-                    />
+                    <ListItemText primary={getExtensionName(extensionPath)} secondary={''} />
                     <ListItemSecondaryAction>
                       <IconButton onClick={() => handleDeleteExtension(index)}>
                         <DeleteIcon />
