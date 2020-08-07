@@ -1,8 +1,11 @@
+require('dotenv').config()
+
 const { app, BrowserWindow } = require('electron')
 const path = require('path')
 const isDev = require('electron-is-dev')
 
-require('./../mains/getExtensionsMain')
+require('./../mains/getKitsMain')
+require('./../mains/createKitsMain')
 
 let mainWindow
 
