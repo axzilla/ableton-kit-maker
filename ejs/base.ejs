@@ -387,3 +387,12 @@
             </AbletonDefaultPresetRef>
         </PresetRef>
         <BranchPresets>
+          <% kitData.samples.map((sample, index) => { %>
+            <% kitData.receivingNote = 92 - index %>
+            <% kitData.drumBranchPresetId = 0 + index %>
+            <%- include('sample.ejs', {...kitData, sample}); %>
+          <% }); %>
+        </BranchPresets>
+        <ReturnBranchPresets />
+    </GroupDevicePreset>
+</Ableton>
