@@ -1,4 +1,10 @@
-import React, { useState } from 'react'
+import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+
+import { getKitList } from '../../slices/kitListSlice'
+import { deleteKitList } from '../../slices/kitListSlice'
+import { resetKitList } from '../../slices/kitListSlice'
+import { setIsLoading } from '../../slices/kitListSlice'
 
 import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
@@ -28,29 +34,29 @@ const useStyles = makeStyles({
 })
 
 function Home() {
+  const dispatch = useDispatch()
+  const { kits, isLoading } = useSelector(state => state.kitList)
   const classes = useStyles()
-  const [kits, setKits] = useState([])
-  const [isLoading, setIsLoading] = useState(false)
 
   async function handleGetKits() {
     try {
-      setIsLoading(true)
+      dispatch(setIsLoading(true))
       const expansions = await ipcRenderer.invoke('get-kits')
       const uniqueExpansionPathsArray = [...new Set([...kits, ...expansions])]
-      setKits(uniqueExpansionPathsArray)
-      setIsLoading(false)
+      dispatch(getKitList(uniqueExpansionPathsArray))
+      dispatch(setIsLoading(false))
     } catch (error) {
-      setIsLoading(false)
+      dispatch(setIsLoading(false))
       if (error) throw error
     }
   }
 
   function handleDeleteKit(index) {
-    setKits([...kits.slice(0, index), ...kits.slice(index + 1)])
+    dispatch(deleteKitList([...kits.slice(0, index), ...kits.slice(index + 1)]))
   }
 
   function handleResetKits() {
-    setKits([])
+    dispatch(resetKitList())
   }
 
   async function handleCreateKits() {
@@ -78,36 +84,26 @@ function Home() {
       {kits.length > 0 ? (
         <Grid item xs={12}>
           <List dense={true}>
-            {kits
-              .sort((a, b) => {
-                if (a < b) {
-                  return -1
-                }
-                if (a > b) {
-                  return 1
-                }
-                return 0
-              })
-              .map((kit, index) => {
-                return (
-                  <ListItem key={kit.kitName} button>
-                    <ListItemAvatar>
-                      <Avatar>
-                        <FolderIcon />
-                      </Avatar>
-                    </ListItemAvatar>
-                    <ListItemText
-                      primary={`Kit: ${kit.kitName}`}
-                      secondary={`Expansion: ${kit.expansionName}`}
-                    />
-                    <ListItemSecondaryAction>
-                      <IconButton onClick={() => handleDeleteKit(index)}>
-                        <DeleteIcon />
-                      </IconButton>
-                    </ListItemSecondaryAction>
-                  </ListItem>
-                )
-              })}
+            {kits.map((kit, index) => {
+              return (
+                <ListItem key={kit.kitName} button>
+                  <ListItemAvatar>
+                    <Avatar>
+                      <FolderIcon />
+                    </Avatar>
+                  </ListItemAvatar>
+                  <ListItemText
+                    primary={`Kit: ${kit.kitName}`}
+                    secondary={`Expansion: ${kit.expansionName}`}
+                  />
+                  <ListItemSecondaryAction>
+                    <IconButton onClick={() => handleDeleteKit(index)}>
+                      <DeleteIcon />
+                    </IconButton>
+                  </ListItemSecondaryAction>
+                </ListItem>
+              )
+            })}
           </List>
         </Grid>
       ) : (

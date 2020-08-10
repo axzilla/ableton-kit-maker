@@ -1,11 +1,18 @@
 require('dotenv').config()
 
+const { default: installExtension, REDUX_DEVTOOLS } = require('electron-devtools-installer')
 const { app, BrowserWindow } = require('electron')
 const path = require('path')
 const isDev = require('electron-is-dev')
 
 require('./../mains/getKitsMain')
 require('./../mains/createKitsMain')
+
+app.whenReady().then(() => {
+  installExtension(REDUX_DEVTOOLS)
+    .then(name => console.log(`Added Extension:  ${name}`)) // eslint-disable-line no-console
+    .catch(error => console.log('An error occurred: ', error)) // eslint-disable-line no-console
+})
 
 let mainWindow
 
