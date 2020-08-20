@@ -1,13 +1,10 @@
 const os = require('os')
 const path = require('path')
 
+const isMac = require('../utils/isMac')
+
 function getUserLib() {
-  const userLib = path.join(
-    os.homedir(),
-    os.type() === 'Darwin' ? 'Music' : 'Documents',
-    'Ableton',
-    'User Library',
-  )
+  const userLib = path.join(os.homedir(), isMac ? 'Music' : 'Documents', 'Ableton', 'User Library')
   return userLib
 }
 
