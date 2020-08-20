@@ -16,7 +16,7 @@ async function createWavFiles(kitList) {
             'Ableton Kit Maker',
             kit.expansionName,
             kit.kitName,
-            sample.path.split('/')[sample.path.split('/').length - 1],
+            sample.path.split(path.sep)[sample.path.split(path.sep).length - 1],
           ),
         )
       })
