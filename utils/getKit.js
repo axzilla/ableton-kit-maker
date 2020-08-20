@@ -1,6 +1,8 @@
+const path = require('path')
+
 function getKit(file) {
   const kitName = file
-    .slice(file.lastIndexOf('/') + 1)
+    .slice(file.lastIndexOf(path.sep) + 1)
     .split('.')[0]
     .replace(' Kit', '')
 
