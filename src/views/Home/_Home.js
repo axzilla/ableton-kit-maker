@@ -4,9 +4,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getKitList } from '../../slices/kitListSlice'
 import { deleteKitList } from '../../slices/kitListSlice'
 import { resetKitList } from '../../slices/kitListSlice'
-import { setIsLoading } from '../../slices/kitListSlice'
+import { setIsLoading } from '../../slices/isLoadingSlice'
 
 import { makeStyles } from '@material-ui/core/styles'
+import LinearProgress from '@material-ui/core/LinearProgress'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
@@ -44,7 +45,8 @@ const useStyles = makeStyles({
 function Home() {
   const dispatch = useDispatch()
   const [userLib, setUserLib] = useState('')
-  const { kits, isLoading } = useSelector(state => state.kitList)
+  const { kits } = useSelector(state => state.kitList)
+  const { isLoading } = useSelector(state => state.isLoading)
   const classes = useStyles()
 
   useEffect(() => {
@@ -79,16 +81,21 @@ function Home() {
 
   async function handleCreateKits() {
     try {
+      dispatch(setIsLoading(true))
       await ipcRenderer.invoke('create-kits', kits)
       alert('Kits created successfully')
+      dispatch(setIsLoading(false))
     } catch (error) {
+      dispatch(setIsLoading(false))
       if (error) throw error
     }
   }
 
   async function handleBrowseUserLibrary() {
+    dispatch(setIsLoading(true))
     const data = await ipcRenderer.invoke('browse-user-library')
     setUserLib(data)
+    dispatch(setIsLoading(false))
   }
 
   return (
@@ -99,7 +106,12 @@ function Home() {
             title={
               <Grid container justify="space-between">
                 <Typography variant="button">Location of User Library</Typography>
-                <Button onClick={handleBrowseUserLibrary} variant="contained" size="small">
+                <Button
+                  disabled={isLoading}
+                  onClick={handleBrowseUserLibrary}
+                  variant="contained"
+                  size="small"
+                >
                   Browse
                 </Button>
               </Grid>
@@ -139,7 +151,7 @@ function Home() {
                     secondary={`Expansion: ${kit.expansionName}`}
                   />
                   <ListItemSecondaryAction>
-                    <IconButton onClick={() => handleDeleteKit(index)}>
+                    <IconButton disabled={isLoading} onClick={() => handleDeleteKit(index)}>
                       <DeleteIcon />
                     </IconButton>
                   </ListItemSecondaryAction>
@@ -156,10 +168,11 @@ function Home() {
         </Grid>
       )}
       <AppBar position="fixed" color="secondary" className={classes.appBar}>
+        {isLoading && <LinearProgress />}
         <Toolbar>
           <Grid container justify="center">
             <Button
-              disabled={kits.length < 1}
+              disabled={kits.length < 1 || isLoading}
               onClick={handleResetKits}
               variant="contained"
               className={classes.button}
@@ -168,7 +181,7 @@ function Home() {
               Reset
             </Button>
             <Button
-              disabled={kits.length < 1}
+              disabled={kits.length < 1 || isLoading}
               onClick={handleCreateKits}
               variant="contained"
               className={classes.button}
