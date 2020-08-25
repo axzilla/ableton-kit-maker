@@ -7,6 +7,8 @@ import { resetKitList } from '../../slices/kitListSlice'
 import { setIsLoading } from '../../slices/kitListSlice'
 
 import { makeStyles } from '@material-ui/core/styles'
+import AppBar from '@material-ui/core/AppBar'
+import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 import List from '@material-ui/core/List'
@@ -17,7 +19,6 @@ import ListItemText from '@material-ui/core/ListItemText'
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
 import IconButton from '@material-ui/core/IconButton'
-import BottomNavigation from '@material-ui/core/BottomNavigation'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import CardHeader from '@material-ui/core/CardHeader'
@@ -28,6 +29,10 @@ import DeleteIcon from '@material-ui/icons/Delete'
 const { ipcRenderer } = window.require('electron')
 
 const useStyles = makeStyles({
+  appBar: {
+    top: 'auto',
+    bottom: 0,
+  },
   bottomNavigation: {
     width: '100%',
     position: 'fixed',
@@ -150,26 +155,30 @@ function Home() {
           </Typography>
         </Grid>
       )}
-      <BottomNavigation showLabels className={classes.bottomNavigation}>
-        <Button
-          disabled={kits.length < 1}
-          onClick={handleResetKits}
-          variant="contained"
-          className={classes.button}
-          color="secondary"
-        >
-          Reset
-        </Button>
-        <Button
-          disabled={kits.length < 1}
-          onClick={handleCreateKits}
-          variant="contained"
-          className={classes.button}
-          color="primary"
-        >
-          Create Kits
-        </Button>
-      </BottomNavigation>
+      <AppBar position="fixed" color="secondary" className={classes.appBar}>
+        <Toolbar>
+          <Grid container justify="center">
+            <Button
+              disabled={kits.length < 1}
+              onClick={handleResetKits}
+              variant="contained"
+              className={classes.button}
+              color="secondary"
+            >
+              Reset
+            </Button>
+            <Button
+              disabled={kits.length < 1}
+              onClick={handleCreateKits}
+              variant="contained"
+              className={classes.button}
+              color="primary"
+            >
+              Create Kits
+            </Button>
+          </Grid>
+        </Toolbar>
+      </AppBar>
     </Grid>
   )
 }
