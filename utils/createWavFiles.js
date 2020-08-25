@@ -7,7 +7,7 @@ async function createWavFiles(kitList) {
   try {
     kitList.map(kit => {
       kit.samples.map(sample => {
-        fsx.copy(
+        fsx.copySync(
           sample.path,
           path.join(
             getAbletonUserLibraryPath(),
@@ -16,7 +16,7 @@ async function createWavFiles(kitList) {
             'Ableton Kit Maker',
             kit.expansionName,
             kit.kitName,
-            sample.path.split(path.sep)[sample.path.split(path.sep).length - 1],
+            sample.wavFile,
           ),
         )
       })
