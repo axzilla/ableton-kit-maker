@@ -5,12 +5,19 @@ const { app, BrowserWindow } = require('electron')
 const path = require('path')
 const isDev = require('electron-is-dev')
 
+const { setSettings } = require('../utils/setSettings')
+
 require('./../mains/getKitsMain')
 require('./../mains/createKitsMain')
+require('./../mains/getAbletonUserLibraryPathMain')
+require('./../mains/browseUserLibraryMain')
 
 app.whenReady().then(() => {
   installExtension(REDUX_DEVTOOLS)
-    .then(name => console.log(`Added Extension:  ${name}`)) // eslint-disable-line no-console
+    .then(name => {
+      setSettings()
+      console.log(`Added Extension:  ${name}`) // eslint-disable-line no-console
+    })
     .catch(error => console.log('An error occurred: ', error)) // eslint-disable-line no-console
 })
 
@@ -45,3 +52,5 @@ app.on('activate', () => {
     createWindow()
   }
 })
+
+module.exports = { app }
