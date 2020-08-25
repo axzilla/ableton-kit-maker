@@ -13,12 +13,12 @@ require('./../mains/getAbletonUserLibraryPathMain')
 require('./../mains/browseUserLibraryMain')
 
 app.whenReady().then(() => {
-  installExtension(REDUX_DEVTOOLS)
-    .then(name => {
-      setSettings()
-      console.log(`Added Extension:  ${name}`) // eslint-disable-line no-console
-    })
-    .catch(error => console.log('An error occurred: ', error)) // eslint-disable-line no-console
+  try {
+    setSettings()
+    installExtension(REDUX_DEVTOOLS)
+  } catch (error) {
+    if (error) throw error
+  }
 })
 
 let mainWindow
