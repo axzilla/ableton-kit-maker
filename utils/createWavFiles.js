@@ -1,7 +1,7 @@
 const fsx = require('fs-extra')
 const path = require('path')
 
-const { getUserLib } = require('../utils/getUserLib')
+const { getAbletonUserLibraryPath } = require('../utils/getAbletonUserLibraryPath')
 
 async function createWavFiles(kitList) {
   try {
@@ -10,7 +10,7 @@ async function createWavFiles(kitList) {
         fsx.copy(
           sample.path,
           path.join(
-            getUserLib(),
+            getAbletonUserLibraryPath(),
             'Samples',
             'Imported',
             'Ableton Kit Maker',

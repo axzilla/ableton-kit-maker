@@ -1,12 +1,12 @@
 const fsx = require('fs-extra')
 const path = require('path')
 
-const { getUserLib } = require('./getUserLib')
+const { getAbletonUserLibraryPath } = require('./getAbletonUserLibraryPath')
 
 async function writeAdgFile(expansionName, kitName, sample) {
   await fsx.ensureDir(
     path.join(
-      getUserLib(),
+      getAbletonUserLibraryPath(),
       'Presets',
       'Instruments',
       'Drum Rack',
@@ -17,7 +17,7 @@ async function writeAdgFile(expansionName, kitName, sample) {
 
   await fsx.writeFile(
     path.join(
-      getUserLib(),
+      getAbletonUserLibraryPath(),
       'Presets',
       'Instruments',
       'Drum Rack',
