@@ -28,6 +28,7 @@ function createWindow() {
     width: 900,
     height: 680,
     webPreferences: {
+      devTools: isDev ? true : false,
       nodeIntegration: true,
     },
   })
@@ -37,6 +38,7 @@ function createWindow() {
   )
 
   mainWindow.on('closed', () => (mainWindow = null))
+  mainWindow.removeMenu()
 }
 
 app.on('ready', createWindow)
