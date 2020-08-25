@@ -7,6 +7,11 @@ import { resetKitList } from '../../slices/kitListSlice'
 import { setIsLoading } from '../../slices/isLoadingSlice'
 
 import { makeStyles } from '@material-ui/core/styles'
+import Dialog from '@material-ui/core/Dialog'
+import DialogActions from '@material-ui/core/DialogActions'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogContentText from '@material-ui/core/DialogContentText'
+import DialogTitle from '@material-ui/core/DialogTitle'
 import LinearProgress from '@material-ui/core/LinearProgress'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
@@ -44,6 +49,7 @@ const useStyles = makeStyles({
 
 function Home() {
   const dispatch = useDispatch()
+  const [open, setOpen] = useState(false)
   const [userLib, setUserLib] = useState('')
   const { kits } = useSelector(state => state.kitList)
   const { isLoading } = useSelector(state => state.isLoading)
@@ -52,6 +58,14 @@ function Home() {
   useEffect(() => {
     getAbletonUserLibraryPath()
   }, [])
+
+  const handleClickOpen = () => {
+    setOpen(true)
+  }
+
+  const handleClose = () => {
+    setOpen(false)
+  }
 
   async function getAbletonUserLibraryPath() {
     const data = await ipcRenderer.invoke('get-user-lib')
@@ -83,7 +97,7 @@ function Home() {
     try {
       dispatch(setIsLoading(true))
       await ipcRenderer.invoke('create-kits', kits)
-      alert('Kits created successfully')
+      handleClickOpen()
       dispatch(setIsLoading(false))
     } catch (error) {
       dispatch(setIsLoading(false))
@@ -192,6 +206,25 @@ function Home() {
           </Grid>
         </Toolbar>
       </AppBar>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{'Kits created successfully'}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            You can find your Kits in Ableton under: <br />
+            Presets &gt; Instruments &gt; Drum Rack &gt; Ableton Kit Maker.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary" autoFocus>
+            Okay
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Grid>
   )
 }
