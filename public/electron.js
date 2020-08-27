@@ -11,9 +11,9 @@ require('./../mains/getKitsMain')
 require('./../mains/createKitsMain')
 require('./../mains/getAbletonUserLibraryPathMain')
 require('./../mains/browseUserLibraryMain')
-require('./../mains/setCookieMain')
 require('./../mains/getCookieMain')
-require('./../mains/removeCookieMain')
+require('./../mains/signInMain')
+require('./../mains/signOutMain')
 
 let mainWindow
 

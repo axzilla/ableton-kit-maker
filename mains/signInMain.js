@@ -1,7 +1,10 @@
 const { ipcMain, session } = require('electron')
+const Store = require('electron-store')
 
-const setCookieMain = ipcMain.handle('set-cookie', function (event, jwtToken) {
+const handleSignInMain = ipcMain.handle('sign-in', function (event, jwtToken) {
   try {
+    const store = new Store()
+    store.set('jwtToken', jwtToken)
     const cookie = { url: 'http://localhost', name: 'jwtToken', value: jwtToken }
     session.defaultSession.cookies.set(cookie)
   } catch (error) {
@@ -9,4 +12,4 @@ const setCookieMain = ipcMain.handle('set-cookie', function (event, jwtToken) {
   }
 })
 
-module.exports = { setCookieMain }
+module.exports = { handleSignInMain }

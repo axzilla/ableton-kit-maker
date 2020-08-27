@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import jwtDecode from 'jwt-decode'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { signInReducer } from '../../slices/authSlice'
 import { userLogin, sendActivationEmail } from '../../services/auth'
@@ -21,11 +21,18 @@ function SignIn() {
   const { setAlert } = useAlert()
   const history = useHistory()
   const [errors, setErrors] = useState('')
+  const isAuthenticated = useSelector(state => state.auth.isAuthenticated)
 
   const [loginData, setLoginData] = useState({
     login: '',
     password: '',
   })
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      history.push('/')
+    }
+  }, [history, isAuthenticated])
 
   function onChange(event) {
     setLoginData({
@@ -39,7 +46,7 @@ function SignIn() {
       event.preventDefault()
       const loggedInUser = await userLogin(loginData)
       const jwtToken = loggedInUser.data
-      await ipcRenderer.invoke('set-cookie', jwtToken)
+      await ipcRenderer.invoke('sign-in', jwtToken)
       await setAuthToken(jwtToken)
       const decodedUser = jwtDecode(jwtToken)
       dispatch(signInReducer(decodedUser))
