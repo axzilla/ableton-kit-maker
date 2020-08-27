@@ -1,11 +1,14 @@
 import React, { useEffect } from 'react'
-import { HashRouter, Route, Switch, useHistory } from 'react-router-dom'
+import { HashRouter, Route, Switch } from 'react-router-dom'
+import { createHashHistory } from 'history'
+import { useDispatch } from 'react-redux'
 import jwtDecode from 'jwt-decode'
 
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Box from '@material-ui/core/Box'
 
+import { signInReducer } from './slices/authSlice'
 import setAuthToken from './utils/setAuthToken'
 import PrivateRoute from './components/PrivateRoute'
 import Alert from './components/Alert'
@@ -14,6 +17,7 @@ import { SignIn as SignInView } from './views'
 import { AlertContextProvider } from './contexts/AlertContext'
 
 const { ipcRenderer } = window.require('electron')
+const Store = window.require('electron-store')
 
 const theme = createMuiTheme({
   palette: {
@@ -28,8 +32,8 @@ const theme = createMuiTheme({
 })
 
 function App() {
-  const history = useHistory()
-  // const [isOnline, setNetwork] = useState(window.navigator.onLine)
+  const dispatch = useDispatch()
+  const history = createHashHistory()
 
   useEffect(() => {
     getInitialAuth()
@@ -47,15 +51,18 @@ function App() {
   // }
 
   async function getInitialAuth() {
-    const jwtToken = await ipcRenderer.invoke('get-cookie')
-    setAuthToken(jwtToken)
+    const store = new Store()
+    const jwtToken = store.get('jwtToken')
 
     if (jwtToken) {
+      setAuthToken(jwtToken)
       const decodedUser = jwtDecode(jwtToken)
-      const currentTime = Date.now() / 1000
-      if (decodedUser.exp > currentTime) {
-        history.push('/signin')
-      }
+      await dispatch(signInReducer(decodedUser))
+
+      // if (decodedUser.exp > currentTime) {
+      // || check if user still exist, otherwise push to login
+      // history.push('/')
+      // }
     }
   }
 
