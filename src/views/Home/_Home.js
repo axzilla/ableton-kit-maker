@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
+import ToolBar from '../../components/ToolBar'
 import { getKitList } from '../../slices/kitListSlice'
 import { deleteKitList } from '../../slices/kitListSlice'
 import { resetKitList } from '../../slices/kitListSlice'
@@ -34,7 +35,14 @@ import DeleteIcon from '@material-ui/icons/Delete'
 
 const { ipcRenderer } = window.require('electron')
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
+  toolbar: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    padding: theme.spacing(0, 1),
+    ...theme.mixins.toolbar,
+  },
   appBar: {
     top: 'auto',
     bottom: 0,
@@ -45,7 +53,7 @@ const useStyles = makeStyles({
     bottom: 0,
   },
   button: { margin: '10px' },
-})
+}))
 
 function Home() {
   const dispatch = useDispatch()
@@ -113,119 +121,123 @@ function Home() {
   }
 
   return (
-    <Grid container justify="center" alignItems="center" spacing={2}>
-      <Grid item xs={12}>
-        <Card>
-          <CardHeader
-            title={
-              <Grid container justify="space-between">
-                <Typography variant="button">Location of User Library</Typography>
-                <Button
-                  disabled={isLoading}
-                  onClick={handleBrowseUserLibrary}
-                  variant="contained"
-                  size="small"
-                >
-                  Browse
-                </Button>
-              </Grid>
-            }
-            subheader={userLib}
-          ></CardHeader>
-        </Card>
-      </Grid>
-      <Grid item xs={12}>
-        <Card>
-          <CardContent>
-            <Button
-              disabled={isLoading}
-              fullWidth
-              variant="contained"
-              color="primary"
-              onClick={handleGetKits}
-            >
-              Select Expansion Pack Folder(s)
-            </Button>
-          </CardContent>
-        </Card>
-      </Grid>
-      {kits.length > 0 ? (
+    <>
+      <ToolBar />
+      <div className={classes.toolbar} />
+      <Grid container justify="center" alignItems="center" spacing={2}>
         <Grid item xs={12}>
-          <List dense={true}>
-            {kits.map((kit, index) => {
-              return (
-                <ListItem key={kit.kitName} button>
-                  <ListItemAvatar>
-                    <Avatar>
-                      <FolderIcon />
-                    </Avatar>
-                  </ListItemAvatar>
-                  <ListItemText
-                    primary={`Kit: ${kit.kitName}`}
-                    secondary={`Expansion: ${kit.expansionName}`}
-                  />
-                  <ListItemSecondaryAction>
-                    <IconButton disabled={isLoading} onClick={() => handleDeleteKit(index)}>
-                      <DeleteIcon />
-                    </IconButton>
-                  </ListItemSecondaryAction>
-                </ListItem>
-              )
-            })}
-          </List>
+          <Card>
+            <CardHeader
+              title={
+                <Grid container justify="space-between">
+                  <Typography variant="button">Location of User Library</Typography>
+                  <Button
+                    disabled={isLoading}
+                    onClick={handleBrowseUserLibrary}
+                    variant="contained"
+                    size="small"
+                  >
+                    Browse
+                  </Button>
+                </Grid>
+              }
+              subheader={userLib}
+            ></CardHeader>
+          </Card>
         </Grid>
-      ) : (
         <Grid item xs={12}>
-          <Typography variant="subtitle2" align="center">
-            No Expansions selected
-          </Typography>
+          <Card>
+            <CardContent>
+              <Button
+                disabled={isLoading}
+                fullWidth
+                variant="contained"
+                color="primary"
+                onClick={handleGetKits}
+              >
+                Select Expansion Pack Folder(s)
+              </Button>
+            </CardContent>
+          </Card>
         </Grid>
-      )}
-      <AppBar position="fixed" color="secondary" className={classes.appBar}>
-        {isLoading && <LinearProgress />}
-        <Toolbar>
-          <Grid container justify="center">
-            <Button
-              disabled={kits.length < 1 || isLoading}
-              onClick={handleResetKits}
-              variant="contained"
-              className={classes.button}
-              color="secondary"
-            >
-              Reset
-            </Button>
-            <Button
-              disabled={kits.length < 1 || isLoading}
-              onClick={handleCreateKits}
-              variant="contained"
-              className={classes.button}
-              color="primary"
-            >
-              Create Kits
-            </Button>
+        {kits.length > 0 ? (
+          <Grid item xs={12}>
+            <List dense={true}>
+              {kits.map((kit, index) => {
+                return (
+                  <ListItem key={kit.kitName} button>
+                    <ListItemAvatar>
+                      <Avatar>
+                        <FolderIcon />
+                      </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary={`Kit: ${kit.kitName}`}
+                      secondary={`Expansion: ${kit.expansionName}`}
+                    />
+                    <ListItemSecondaryAction>
+                      <IconButton disabled={isLoading} onClick={() => handleDeleteKit(index)}>
+                        <DeleteIcon />
+                      </IconButton>
+                    </ListItemSecondaryAction>
+                  </ListItem>
+                )
+              })}
+            </List>
           </Grid>
-        </Toolbar>
-      </AppBar>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">{'Kits created successfully'}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            You can find your Kits in Ableton under: <br />
-            Presets &gt; Instruments &gt; Drum Rack &gt; Ableton Kit Maker.
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary" autoFocus>
-            Okay
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </Grid>
+        ) : (
+          <Grid item xs={12}>
+            <Typography variant="subtitle2" align="center">
+              No Expansions selected
+            </Typography>
+          </Grid>
+        )}
+        <AppBar position="fixed" color="secondary" className={classes.appBar}>
+          {isLoading && <LinearProgress />}
+          <Toolbar>
+            <Grid container justify="center">
+              <Button
+                disabled={kits.length < 1 || isLoading}
+                onClick={handleResetKits}
+                variant="contained"
+                className={classes.button}
+                color="secondary"
+              >
+                Reset
+              </Button>
+              <Button
+                disabled={kits.length < 1 || isLoading}
+                onClick={handleCreateKits}
+                variant="contained"
+                className={classes.button}
+                color="primary"
+              >
+                Create Kits
+              </Button>
+            </Grid>
+          </Toolbar>
+        </AppBar>
+        <Dialog
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">{'Kits created successfully'}</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              You can find your Kits in Ableton under: <br />
+              Presets &gt; Instruments &gt; Drum Rack &gt; Ableton Kit Maker.
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose} color="primary" autoFocus>
+              Okay
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </Grid>
+    </>
   )
 }
 
