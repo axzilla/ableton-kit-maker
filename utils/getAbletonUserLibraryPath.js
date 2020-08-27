@@ -1,11 +1,8 @@
-const fs = require('fs')
-const { app } = require('electron')
+const Store = require('electron-store')
 
 function getAbletonUserLibraryPath() {
-  const userData = app.getPath('userData')
-  const settings = JSON.parse(fs.readFileSync(`${userData}/settings.json`))
-  const abletonLibraryPath = settings.abletonLibraryPath
-  return abletonLibraryPath
+  const store = new Store()
+  return store.get('abletonLibraryPath')
 }
 
 module.exports = { getAbletonUserLibraryPath }

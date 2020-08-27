@@ -1,16 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit'
 const { ipcRenderer } = window.require('electron')
+const Store = window.require('electron-store')
+const store = new Store()
 
 export const authSlice = createSlice({
   name: 'auth',
   initialState: {
-    token: '',
+    token: store.get('jwtToken'),
     isAuthenticated: false,
     user: {},
   },
   reducers: {
     signInReducer: (state, action) => {
-      state.token = ipcRenderer.invoke('get-cookie')
+      state.token = store.get('jwtToken')
       state.isAuthenticated = true
       state.loading = false
       state.user = action.payload
@@ -20,7 +22,7 @@ export const authSlice = createSlice({
       state.isAuthenticated = false
       state.loading = false
       state.user = {}
-      ipcRenderer.invoke('remove-cookie')
+      ipcRenderer.invoke('sign-out')
     },
   },
 })
