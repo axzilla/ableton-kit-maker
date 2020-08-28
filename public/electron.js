@@ -1,11 +1,12 @@
 require('dotenv').config()
 
 const { default: installExtension, REDUX_DEVTOOLS } = require('electron-devtools-installer')
-const { app, BrowserWindow, globalShortcut } = require('electron')
+const { app, BrowserWindow } = require('electron')
 const path = require('path')
 const isDev = require('electron-is-dev')
 
 const { setSettings } = require('../utils/setSettings')
+const { disableReloadShortCuts } = require('../utils/disableReloadShortCuts')
 
 require('./../mains/getKitsMain')
 require('./../mains/createKitsMain')
@@ -20,14 +21,11 @@ let mainWindow
 app.whenReady().then(() => {
   try {
     setSettings()
-    installExtension(REDUX_DEVTOOLS)
 
-    globalShortcut.register('CommandOrControl+R', () => {
-      console.log('CommandOrControl+R is pressed: Shortcut Disabled') // eslint-disable-line
-    })
-    globalShortcut.register('F5', () => {
-      console.log('F5 is pressed: Shortcut Disabled') // eslint-disable-line
-    })
+    if (!isDev) {
+      installExtension(REDUX_DEVTOOLS)
+      disableReloadShortCuts()
+    }
   } catch (error) {
     if (error) throw error
   }

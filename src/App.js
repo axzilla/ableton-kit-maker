@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 import { HashRouter, Route, Switch } from 'react-router-dom'
-import { createHashHistory } from 'history'
 import { useDispatch } from 'react-redux'
 import jwtDecode from 'jwt-decode'
 
@@ -16,7 +15,6 @@ import { Home as HomeView } from './views'
 import { SignIn as SignInView } from './views'
 import { AlertContextProvider } from './contexts/AlertContext'
 
-const { ipcRenderer } = window.require('electron')
 const Store = window.require('electron-store')
 
 const theme = createMuiTheme({
@@ -33,7 +31,6 @@ const theme = createMuiTheme({
 
 function App() {
   const dispatch = useDispatch()
-  const history = createHashHistory()
 
   useEffect(() => {
     getInitialAuth()
@@ -59,10 +56,7 @@ function App() {
       const decodedUser = jwtDecode(jwtToken)
       await dispatch(signInReducer(decodedUser))
 
-      // if (decodedUser.exp > currentTime) {
-      // || check if user still exist, otherwise push to login
-      // history.push('/')
-      // }
+      // check if user still exist, otherwise push to login
     }
   }
 
