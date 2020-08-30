@@ -58,8 +58,6 @@ function createWindow() {
 
   const isMac = process.platform === 'darwin'
   const template = [
-    // { role: 'appMenu' },
-
     {
       label: app.name,
       submenu: [
@@ -80,7 +78,7 @@ function createWindow() {
               aboutWindow.loadURL(
                 isDev
                   ? 'http://localhost:3000#/about'
-                  : `file://${path.join(__dirname, '../build/index.html#/xxx')}`,
+                  : `file://${path.join(__dirname, '../build/index.html#/about')}`,
               )
 
               aboutWindow.on('close', function () {
