@@ -33,6 +33,19 @@ function App() {
   const dispatch = useDispatch()
 
   useEffect(() => {
+    async function getInitialAuth() {
+      const store = new Store()
+      const jwtToken = store.get('jwtToken')
+
+      if (jwtToken) {
+        setAuthToken(jwtToken)
+        const decodedUser = jwtDecode(jwtToken)
+        await dispatch(signInReducer(decodedUser))
+
+        // check if user still exist, otherwise push to login
+      }
+    }
+
     getInitialAuth()
 
     // window.addEventListener('offline', updateNetwork)
@@ -41,24 +54,11 @@ function App() {
     //   window.removeEventListener('offline', updateNetwork)
     //   window.removeEventListener('online', updateNetwork)
     // }
-  }, [])
+  }, [dispatch])
 
   // function updateNetwork() {
   //   setNetwork(window.navigator.onLine)
   // }
-
-  async function getInitialAuth() {
-    const store = new Store()
-    const jwtToken = store.get('jwtToken')
-
-    if (jwtToken) {
-      setAuthToken(jwtToken)
-      const decodedUser = jwtDecode(jwtToken)
-      await dispatch(signInReducer(decodedUser))
-
-      // check if user still exist, otherwise push to login
-    }
-  }
 
   return (
     <HashRouter>

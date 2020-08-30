@@ -19,7 +19,7 @@ function Auth({ children }) {
   return (
     <Container maxWidth="xs">
       <Grid className={classes.root} container alignItems="center" direction="column">
-        <img className={classes.logo} src={logo} />
+        <img className={classes.logo} src={logo} alt="" />
         {children}
       </Grid>
     </Container>
