@@ -2,7 +2,7 @@
   "name": "ableton-kit-maker",
   "description": "Build Ableton Drum Racks from your NI Extensions",
   "author": "badazzdev",
-  "version": "1.0.0",
+  "version": "v1.0.0",
   "main": "./public/electron.js",
   "productName": "Ableton Kit Maker",
   "homepage": "./",
