@@ -1,13 +1,18 @@
 require('dotenv').config()
 
+// Native
+const path = require('path')
+
+// Packages
 const { default: installExtension, REDUX_DEVTOOLS } = require('electron-devtools-installer')
 const { app, BrowserWindow } = require('electron')
-const path = require('path')
 const isDev = require('electron-is-dev')
 
+// Utils
 const { setSettings } = require('../utils/setSettings')
 const { disableReloadShortCuts } = require('../utils/disableReloadShortCuts')
 
+// Mains
 require('./../mains/getKitsMain')
 require('./../mains/createKitsMain')
 require('./../mains/getAbletonUserLibraryPathMain')
