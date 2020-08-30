@@ -1,18 +1,30 @@
+// Packages
 import React, { useEffect } from 'react'
 import { HashRouter, Route, Switch } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import jwtDecode from 'jwt-decode'
 
+// MUI
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Box from '@material-ui/core/Box'
 
+// Reducer
 import { signInReducer } from './slices/authSlice'
+
+// Utils
 import setAuthToken from './utils/setAuthToken'
+
+// Components
 import PrivateRoute from './components/PrivateRoute'
 import Alert from './components/Alert'
+
+// Views
+import { About as AboutView } from './views'
 import { Home as HomeView } from './views'
 import { SignIn as SignInView } from './views'
+
+// Contexts
 import { AlertContextProvider } from './contexts/AlertContext'
 
 const Store = window.require('electron-store')
@@ -69,6 +81,7 @@ function App() {
             <Switch>
               <PrivateRoute path="/" component={HomeView} exact />
               <Route path="/signin" component={SignInView} exact />
+              <Route path="/about" component={AboutView} />
             </Switch>
           </Box>
           <Alert />
