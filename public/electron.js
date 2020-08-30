@@ -20,6 +20,7 @@ require('./../mains/browseUserLibraryMain')
 require('./../mains/getCookieMain')
 require('./../mains/signInMain')
 require('./../mains/signOutMain')
+require('./../mains/getAppVersionMain')
 
 let mainWindow
 let aboutWindow
@@ -58,46 +59,48 @@ function createWindow() {
   const isMac = process.platform === 'darwin'
   const template = [
     // { role: 'appMenu' },
-    ...(isMac
-      ? [
-          {
-            label: app.name,
-            submenu: [
-              {
-                label: 'About Kit Maker',
-                click() {
-                  if (!aboutWindow) {
-                    aboutWindow = new BrowserWindow({
-                      webPreferences: { nodeIntegration: true },
-                      title: 'About Kit Maker',
-                      width: 300,
-                      height: 400,
-                      resizable: false,
-                      minimizable: false,
-                      maximizable: false,
-                    })
 
-                    aboutWindow.loadURL(
-                      isDev
-                        ? 'http://localhost:3000#/about'
-                        : `file://${path.join(__dirname, '../build/index.html#/xxx')}`,
-                    )
-                  }
-                },
-              },
+    {
+      label: app.name,
+      submenu: [
+        {
+          label: 'About Kit Maker',
+          click() {
+            if (!aboutWindow) {
+              aboutWindow = new BrowserWindow({
+                webPreferences: { nodeIntegration: true },
+                title: 'About Kit Maker',
+                width: 400,
+                height: 300,
+                resizable: false,
+                minimizable: false,
+                maximizable: false,
+              })
 
-              { type: 'separator' },
-              { role: 'services' },
-              { type: 'separator' },
-              { role: 'hide' },
-              { role: 'hideothers' },
-              { role: 'unhide' },
-              { type: 'separator' },
-              { role: 'quit' },
-            ],
+              aboutWindow.loadURL(
+                isDev
+                  ? 'http://localhost:3000#/about'
+                  : `file://${path.join(__dirname, '../build/index.html#/xxx')}`,
+              )
+
+              aboutWindow.on('close', function () {
+                aboutWindow = null
+              })
+            }
           },
-        ]
-      : []),
+        },
+
+        { type: 'separator' },
+        { role: 'services' },
+        { type: 'separator' },
+        { role: 'hide' },
+        { role: 'hideothers' },
+        { role: 'unhide' },
+        { type: 'separator' },
+        { role: 'quit' },
+      ],
+    },
+
     // { role: 'fileMenu' }
     {
       label: 'File',
