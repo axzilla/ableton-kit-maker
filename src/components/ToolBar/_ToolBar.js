@@ -44,7 +44,7 @@ function ToolBar({ history }) {
       <CssBaseline />
       <AppBar position="fixed" color="inherit">
         <Toolbar>
-          <img className={classes.logo} src={logo} />
+          <img className={classes.logo} src={logo} alt="" />
           <Typography variant="h6" className={classes.title} />
           <Button onClick={handleLogout} color="inherit">
             Logout

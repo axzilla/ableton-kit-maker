@@ -90,7 +90,7 @@ function CustomizedSnackbars() {
     if (!isEmpty(alert && alert.message)) {
       setOpen(true)
     }
-  }, [alert && alert.message])
+  }, [alert])
 
   const [open, setOpen] = React.useState(false)
 
