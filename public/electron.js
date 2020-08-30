@@ -62,12 +62,12 @@ function createWindow() {
       label: app.name,
       submenu: [
         {
-          label: 'About Kit Maker',
+          label: 'About Ableton Kit Maker',
           click() {
             if (!aboutWindow) {
               aboutWindow = new BrowserWindow({
                 webPreferences: { nodeIntegration: true },
-                title: 'About Kit Maker',
+                title: 'About Ableton Kit Maker',
                 width: 400,
                 height: 300,
                 resizable: false,
