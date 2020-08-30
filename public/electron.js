@@ -91,8 +91,6 @@ function createWindow() {
         },
 
         { type: 'separator' },
-        { role: 'services' },
-        { type: 'separator' },
         { role: 'hide' },
         { role: 'hideothers' },
         { role: 'unhide' },
@@ -100,37 +98,10 @@ function createWindow() {
         { role: 'quit' },
       ],
     },
-
-    // { role: 'fileMenu' }
     {
       label: 'File',
       submenu: [isMac ? { role: 'close' } : { role: 'quit' }],
     },
-    // { role: 'editMenu' }
-    {
-      label: 'Edit',
-      submenu: [
-        { role: 'undo' },
-        { role: 'redo' },
-        { type: 'separator' },
-        { role: 'cut' },
-        { role: 'copy' },
-        { role: 'paste' },
-        ...(isMac
-          ? [
-              { role: 'pasteAndMatchStyle' },
-              { role: 'delete' },
-              { role: 'selectAll' },
-              { type: 'separator' },
-              {
-                label: 'Speech',
-                submenu: [{ role: 'startspeaking' }, { role: 'stopspeaking' }],
-              },
-            ]
-          : [{ role: 'delete' }, { type: 'separator' }, { role: 'selectAll' }]),
-      ],
-    },
-    // { role: 'viewMenu' }
     {
       label: 'View',
       submenu: [
@@ -145,7 +116,6 @@ function createWindow() {
         { role: 'togglefullscreen' },
       ],
     },
-    // { role: 'windowMenu' }
     {
       label: 'Window',
       submenu: [
@@ -156,18 +126,18 @@ function createWindow() {
           : [{ role: 'close' }]),
       ],
     },
-    {
-      role: 'help',
-      submenu: [
-        {
-          label: 'Learn More',
-          click: async () => {
-            const { shell } = require('electron')
-            await shell.openExternal('https://electronjs.org')
-          },
-        },
-      ],
-    },
+    // {
+    //   role: 'help',
+    //   submenu: [
+    //     {
+    //       label: 'Learn More',
+    //       click: async () => {
+    //         const { shell } = require('electron')
+    //         await shell.openExternal('https://ableton-kit-maker.noize.dev')
+    //       },
+    //     },
+    //   ],
+    // },
   ]
 
   const menu = Menu.buildFromTemplate(template)
