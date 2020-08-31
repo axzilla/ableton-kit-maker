@@ -1,5 +1,6 @@
 const path = require('path')
 const ejs = require('ejs')
+const isMac = require('./isMac')
 
 const { writeAdgFile } = require('../utils/writeAdgFile')
 
@@ -17,6 +18,7 @@ async function createAdgFiles(kitList) {
 
         const sample = await ejs.renderFile(path.join(__dirname, '..', 'ejs', 'base.ejs'), {
           kitData,
+          isMac,
         })
 
         await writeAdgFile(expansionName, kitName, sample)
