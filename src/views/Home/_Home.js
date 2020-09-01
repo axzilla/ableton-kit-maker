@@ -1,12 +1,17 @@
+// Packages
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
+// Components
 import ToolBar from '../../components/ToolBar'
+
+// Slices
 import { getKitList } from '../../slices/kitListSlice'
 import { deleteKitList } from '../../slices/kitListSlice'
 import { resetKitList } from '../../slices/kitListSlice'
 import { setIsLoading } from '../../slices/isLoadingSlice'
 
+// MUI
 import { makeStyles } from '@material-ui/core/styles'
 import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
@@ -29,10 +34,10 @@ import IconButton from '@material-ui/core/IconButton'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import CardHeader from '@material-ui/core/CardHeader'
-
 import FolderIcon from '@material-ui/icons/Folder'
 import DeleteIcon from '@material-ui/icons/Delete'
 
+// Electron
 const { ipcRenderer } = window.require('electron')
 
 const useStyles = makeStyles(theme => ({
@@ -65,6 +70,7 @@ function Home() {
 
   useEffect(() => {
     getAbletonUserLibraryPath()
+    ipcRenderer.invoke('handle-analytics', '/')
   }, [])
 
   const handleClickOpen = () => {

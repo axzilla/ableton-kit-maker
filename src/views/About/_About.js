@@ -13,7 +13,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite'
 import icon from '../../assets/icon.png'
 import noizeLogo from '../../assets/noize_logo.svg'
 
-// Requires
+// Electron
 const { shell, ipcRenderer } = window.require('electron')
 
 const useStyles = makeStyles({
@@ -28,6 +28,7 @@ function Home() {
 
   useEffect(() => {
     getAppVersion()
+    ipcRenderer.invoke('handle-analytics', '/about')
   }, [])
 
   async function getAppVersion() {
