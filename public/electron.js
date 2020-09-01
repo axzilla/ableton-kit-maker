@@ -21,6 +21,7 @@ require('./../mains/getCookieMain')
 require('./../mains/signInMain')
 require('./../mains/signOutMain')
 require('./../mains/getAppVersionMain')
+require('./../mains/handleAnalyticsMain')
 
 let mainWindow
 let aboutWindow

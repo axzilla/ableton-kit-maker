@@ -1,19 +1,32 @@
+// Packaged
 import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import jwtDecode from 'jwt-decode'
 import { useDispatch, useSelector } from 'react-redux'
 
+// Reducer
 import { signInReducer } from '../../slices/authSlice'
+
+// Services
 import { userLogin, sendActivationEmail } from '../../services/auth'
+
+// Utils
 import setAuthToken from '../../utils/setAuthToken'
+
+// Components
 import Link from '../../components/Link'
 import TextField from '../../components/TextField'
 import { Auth as AuthLayout } from '../../layouts'
+
+// Contexts
 import { useAlert } from '../../contexts/AlertContext'
 
+// MUI
 import Button from '@material-ui/core/Button'
 import Box from '@material-ui/core/Box'
 import Typography from '@material-ui/core/Typography'
+
+// Electron
 const { shell, ipcRenderer } = window.require('electron')
 
 function SignIn() {
@@ -31,6 +44,8 @@ function SignIn() {
   useEffect(() => {
     if (isAuthenticated) {
       history.push('/')
+    } else {
+      ipcRenderer.invoke('handle-analytics', '/signin')
     }
   }, [history, isAuthenticated])
 
