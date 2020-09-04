@@ -40,7 +40,7 @@ function Home() {
     <>
       <Grid container alignItems="center" justify="center" direction="column">
         <Grid item>
-          <img src={icon} className={classes.icon} />
+          <img src={icon} className={classes.icon} alt="" />
         </Grid>
         <Grid item xs={12} style={{ marginBottom: '10px' }}>
           <Typography align="center" variant="subtitle1">
@@ -56,6 +56,7 @@ function Home() {
             src={noizeLogo}
             className={classes.noizeLogo}
             onClick={() => shell.openExternal('https://www.noize.dev')}
+            alt=""
           />
         </Grid>
       </Grid>
