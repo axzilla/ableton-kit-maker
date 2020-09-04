@@ -3,11 +3,11 @@ const path = require('path')
 
 const { getAbletonUserLibraryPath } = require('../utils/getAbletonUserLibraryPath')
 
-async function createWavFiles(data) {
+async function createWavFilesLink(data) {
   try {
     data.kits.map(kit => {
       kit.samples.map(sample => {
-        fsx.copySync(
+        fsx.ensureLink(
           sample.path,
           path.join(
             getAbletonUserLibraryPath(),
@@ -26,4 +26,4 @@ async function createWavFiles(data) {
   }
 }
 
-module.exports = { createWavFiles }
+module.exports = { createWavFilesLink }

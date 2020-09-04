@@ -1,9 +1,9 @@
 const { ipcMain } = require('electron')
 const { createKitsCtrl } = require('../controller/createKitsCtrl')
 
-const getKitsMain = ipcMain.handle('create-kits', function (event, kitList) {
+const getKitsMain = ipcMain.handle('create-kits', function (event, data) {
   try {
-    return createKitsCtrl(kitList)
+    return createKitsCtrl(data)
   } catch (error) {
     if (error) throw error
   }
