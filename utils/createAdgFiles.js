@@ -4,10 +4,10 @@ const isMac = require('./isMac')
 
 const { writeAdgFile } = require('../utils/writeAdgFile')
 
-async function createAdgFiles(kitList) {
+async function createAdgFiles(data) {
   try {
     await Promise.all(
-      kitList.map(async kit => {
+      data.kits.map(async kit => {
         const { kitName, expansionName, samples } = kit
 
         const kitData = {
