@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const serverUrl = 'https://noize-api.herokuapp.com/auth'
+const serverUrl = 'https://api.noize.dev/auth'
 
 export function userLogin(data) {
   return axios.post(`${serverUrl}/login`, data)

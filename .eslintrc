@@ -18,5 +18,10 @@
   "rules": {
     "no-console": "error",
     "react/no-unused-prop-types": "error"
+  },
+  "settings": {
+    "react": {
+      "version": "latest"
+    }
   }
 }
